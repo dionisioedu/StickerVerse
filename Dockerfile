@@ -1,4 +1,5 @@
-FROM golang:1.22-alpine
+# Etapa 1 - Build
+FROM golang:1.22-alpine AS builder
 
 WORKDIR /app
 
@@ -8,7 +9,14 @@ RUN go mod download
 
 COPY . .
 
-RUN go build -o main ./cmd/server
+WORKDIR /app/cmd/server
+RUN go build -o /main
+
+# Etapa 2 - Imagem final
+FROM alpine:latest
+
+WORKDIR /root/
+COPY --from=builder /main .
 
 EXPOSE 8080
 CMD ["./main"]

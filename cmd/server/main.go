@@ -1,24 +1,24 @@
 package main
 
 import (
-    "log"
-    "net/http"
-    "os"
+	"log"
+	"net/http"
+	"os"
 
-    "github.com/joho/godotenv"
-    "github.com/seu-usuario/StickerVerse/api"
+	"github.com/dionisioedu/StickerVerse/api"
+	"github.com/joho/godotenv"
 )
 
 func main() {
-    godotenv.Load()
+	godotenv.Load()
 
-    r := api.SetupRoutes()
+	r := api.SetupRoutes()
 
-    port := os.Getenv("PORT")
-    if port == "" {
-        port = "8080"
-    }
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
 
-    log.Printf("StickerVerse running on http://localhost:%s", port)
-    log.Fatal(http.ListenAndServe(":"+port, r))
+	log.Printf("StickerVerse running on http://localhost:%s", port)
+	log.Fatal(http.ListenAndServe(":"+port, r))
 }

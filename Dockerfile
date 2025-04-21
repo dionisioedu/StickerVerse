@@ -12,7 +12,6 @@ COPY . .
 WORKDIR /app/cmd/server
 RUN go build -o /main
 
-# Etapa 2 - Imagem final
 FROM alpine:latest
 
 WORKDIR /root/

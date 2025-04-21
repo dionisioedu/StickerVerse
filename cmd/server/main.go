@@ -6,11 +6,13 @@ import (
 	"os"
 
 	"github.com/dionisioedu/StickerVerse/api"
+	"github.com/dionisioedu/StickerVerse/internal/db"
 	"github.com/joho/godotenv"
 )
 
 func main() {
 	godotenv.Load()
+	db.ConnectDB()
 
 	r := api.SetupRoutes()
 

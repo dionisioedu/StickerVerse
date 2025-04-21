@@ -7,7 +7,7 @@ import (
 type User struct {
 	ID         string    `db:"id" json:"id"`
 	Username   string    `db:"username" json:"username"`
-	Password   string    `db:"password_hash" json:"passwordHash"`
+	Password   *string   `db:"password_hash" json:"passwordHash"`
 	Email      string    `db:"email" json:"email"`
 	AvatarURL  *string   `db:"avatar_url" json:"avatarUrl"`
 	Bio        *string   `db:"bio" json:"bio"`

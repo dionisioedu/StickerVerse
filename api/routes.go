@@ -3,7 +3,7 @@ package api
 import (
 	"net/http"
 
-	"github.com/dionisioedu/StickerVerse/internal/user"
+	"github.com/dionisioedu/StickerVerse/internal/auth"
 	"github.com/gin-gonic/gin"
 )
 
@@ -15,15 +15,19 @@ func SetupRoutes() *gin.Engine {
 	})
 
 	r.GET("/", func(c *gin.Context) {
-		u, err := user.GetFirstUser()
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"error": err.Error(),
-			})
-			return
-		}
-		c.JSON(http.StatusOK, u)
+		c.JSON(http.StatusOK, gin.H{"message": "Welcome to StickerVerse 👋"})
 	})
+
+	r.POST("/auth/google", auth.GoogleAuthHandler)
+
+	authGroup := r.Group("/")
+	authGroup.Use(auth.AuthRequired())
+	{
+		authGroup.GET("/me", func(c *gin.Context) {
+			userID := c.GetString("userID")
+			c.JSON(http.StatusOK, gin.H{"user_id": userID})
+		})
+	}
 
 	return r
 }

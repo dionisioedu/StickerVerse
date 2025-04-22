@@ -1,6 +1,7 @@
 package api
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/dionisioedu/StickerVerse/internal/auth"
@@ -27,10 +28,17 @@ func SetupRoutes() *gin.Engine {
 	authGroup.Use(auth.AuthRequired())
 	{
 		authGroup.GET("/me", func(c *gin.Context) {
-			userID := c.GetString("userID")
-			u, err := user.GetUserByID(userID)
-			if err != nil {
-				c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+			authUser, exists := c.Get("user")
+			if !exists {
+				log.Printf("GET /me Unauthorized!")
+				c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
+				return
+			}
+
+			log.Printf("Fetching user data for userID: %s", authUser)
+			u, ok := authUser.(*user.User)
+			if !ok {
+				c.JSON(http.StatusInternalServerError, gin.H{"error": "Invalid user context"})
 				return
 			}
 			c.JSON(http.StatusOK, gin.H{"user": u})

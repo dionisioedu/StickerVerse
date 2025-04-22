@@ -18,10 +18,13 @@ func GetFirstUser() (*User, error) {
 	return &u, nil
 }
 
-func GetUserByID(userID string) (User, error) {
+func GetUserByID(userID string) (*User, error) {
 	var u User
 	err := db.DB.Get(&u, "SELECT * FROM users WHERE id = $1", userID)
-	return u, err
+	if err != nil {
+		return nil, fmt.Errorf("GetUserByID error: %w", err)
+	}
+	return &u, nil
 }
 
 func FindOrCreateUser(googleUser *model.GoogleUser) (*User, error) {

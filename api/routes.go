@@ -5,6 +5,7 @@ import (
 
 	"github.com/dionisioedu/StickerVerse/internal/auth"
 	"github.com/dionisioedu/StickerVerse/internal/middleware"
+	"github.com/dionisioedu/StickerVerse/internal/user" // importa o package com o repositório
 	"github.com/gin-gonic/gin"
 )
 
@@ -26,8 +27,13 @@ func SetupRoutes() *gin.Engine {
 	authGroup.Use(auth.AuthRequired())
 	{
 		authGroup.GET("/me", func(c *gin.Context) {
-			user := c.GetString("user")
-			c.JSON(http.StatusOK, gin.H{"user": user})
+			userID := c.GetString("userID")
+			u, err := user.GetUserByID(userID)
+			if err != nil {
+				c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+				return
+			}
+			c.JSON(http.StatusOK, gin.H{"user": u})
 		})
 	}
 

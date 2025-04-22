@@ -26,8 +26,8 @@ func SetupRoutes() *gin.Engine {
 	authGroup.Use(auth.AuthRequired())
 	{
 		authGroup.GET("/me", func(c *gin.Context) {
-			userID := c.GetString("userID")
-			c.JSON(http.StatusOK, gin.H{"user_id": userID})
+			user := c.GetString("user")
+			c.JSON(http.StatusOK, gin.H{"user": user})
 		})
 	}
 

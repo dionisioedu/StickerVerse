@@ -6,6 +6,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/dionisioedu/StickerVerse/internal/user"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 )
@@ -48,7 +49,13 @@ func AuthRequired() gin.HandlerFunc {
 			return
 		}
 
-		c.Set("userID", userID)
+		u, err := user.GetUserByID(userID)
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "User not found"})
+			return
+		}
+
+		c.Set("user", u)
 		c.Next()
 	}
 }

@@ -18,6 +18,12 @@ func GetFirstUser() (*User, error) {
 	return &u, nil
 }
 
+func GetUserByID(userID string) (User, error) {
+	var u User
+	err := db.DB.Get(&u, "SELECT * FROM users WHERE id = $1", userID)
+	return u, err
+}
+
 func FindOrCreateUser(googleUser *model.GoogleUser) (*User, error) {
 	var u User
 	err := db.DB.Get(&u, "SELECT * FROM users WHERE provider = 'google' AND provider_id = $1", googleUser.Sub)

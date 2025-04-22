@@ -6,7 +6,6 @@ import (
 
 	"github.com/dionisioedu/StickerVerse/internal/db"
 	"github.com/dionisioedu/StickerVerse/internal/model"
-	"github.com/google/uuid"
 )
 
 func GetFirstUser() (*User, error) {
@@ -34,7 +33,7 @@ func FindOrCreateUser(googleUser *model.GoogleUser) (*User, error) {
 		return &u, nil // Usuário já existe
 	}
 
-	id := uuid.New().String()
+	id := googleUser.Sub
 	now := time.Now()
 
 	// Inserir novo usuário

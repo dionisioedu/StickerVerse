@@ -4,11 +4,13 @@ import (
 	"net/http"
 
 	"github.com/dionisioedu/StickerVerse/internal/auth"
+	"github.com/dionisioedu/StickerVerse/internal/middleware"
 	"github.com/gin-gonic/gin"
 )
 
 func SetupRoutes() *gin.Engine {
 	r := gin.Default()
+	r.Use(middleware.CORSMiddleware())
 
 	r.GET("/health", func(c *gin.Context) {
 		c.JSON(200, gin.H{"status": "ok"})

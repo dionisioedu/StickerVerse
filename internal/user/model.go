@@ -15,4 +15,5 @@ type User struct {
 	ProviderID string    `db:"provider_id" json:"providerId"`
 	CreatedAt  time.Time `db:"created_at" json:"createdAt"`
 	UpdatedAt  time.Time `db:"updated_at" json:"updatedAt"`
+	Credits    int       `db:"credits" json:"credits"`
 }

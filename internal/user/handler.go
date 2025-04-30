@@ -33,6 +33,6 @@ func UpdateUserDisplayHandler(c *gin.Context) {
 		return
 	}
 
-	u.Display = req.Display
+	u.Display = &req.Display
 	c.JSON(http.StatusOK, gin.H{"display": u.Display})
 }

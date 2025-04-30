@@ -56,3 +56,14 @@ func FindOrCreateUser(googleUser *model.GoogleUser) (*User, error) {
 
 	return &u, nil
 }
+
+func UpdateUserDisplay(userID string, display string) error {
+	_, err := db.DB.Exec(
+		`UPDATE users SET display = $1, updated_at = now() WHERE id = $2`,
+		display, userID,
+	)
+	if err != nil {
+		return fmt.Errorf("UpdateUserDisplay error: %w", err)
+	}
+	return nil
+}

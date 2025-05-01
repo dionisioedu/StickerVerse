@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func UpdateUserDisplayHandler(c *gin.Context) {
+func UpdateUserHandler(c *gin.Context) {
 	authUser, exists := c.Get("user")
 	if !exists {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
@@ -20,7 +20,8 @@ func UpdateUserDisplayHandler(c *gin.Context) {
 	}
 
 	var req struct {
-		Display string `json:"display" binding:"required,min=2,max=50"`
+		Display string `json:"display" binding:"max=20"`
+		Bio     string `json:"bio" binding:"max=1000"`
 	}
 
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -28,11 +29,12 @@ func UpdateUserDisplayHandler(c *gin.Context) {
 		return
 	}
 
-	if err := UpdateUserDisplay(u.ID, req.Display); err != nil {
+	if err := UpdateUser(u.ID, req.Display, req.Bio); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update display name"})
 		return
 	}
 
 	u.Display = &req.Display
-	c.JSON(http.StatusOK, gin.H{"display": u.Display})
+	u.Bio = &req.Bio
+	c.JSON(http.StatusOK, gin.H{"display": u.Display, "bio": u.Bio})
 }

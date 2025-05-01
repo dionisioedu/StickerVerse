@@ -44,7 +44,7 @@ func SetupRoutes() *gin.Engine {
 			}
 			c.JSON(http.StatusOK, gin.H{"user": u})
 		})
-		authGroup.PATCH("/me", user.UpdateUserDisplayHandler)
+		authGroup.PATCH("/me", user.UpdateUserHandler)
 
 		authGroup.GET("/albums", album.ListAlbumsByUserHandler)
 		authGroup.POST("/albums", album.CreateAlbumHandler)

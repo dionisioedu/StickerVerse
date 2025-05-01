@@ -7,6 +7,7 @@ import (
 	"github.com/dionisioedu/StickerVerse/internal/album"
 	"github.com/dionisioedu/StickerVerse/internal/auth"
 	"github.com/dionisioedu/StickerVerse/internal/middleware"
+	"github.com/dionisioedu/StickerVerse/internal/sticker"
 	"github.com/dionisioedu/StickerVerse/internal/user"
 	"github.com/gin-gonic/gin"
 )
@@ -45,6 +46,8 @@ func SetupRoutes() *gin.Engine {
 			c.JSON(http.StatusOK, gin.H{"user": u})
 		})
 		authGroup.PATCH("/me", user.UpdateUserHandler)
+
+		authGroup.GET("/stickers", sticker.ListUserStickersHandler)
 
 		authGroup.GET("/albums", album.ListAlbumsByUserHandler)
 		authGroup.POST("/albums", album.CreateAlbumHandler)

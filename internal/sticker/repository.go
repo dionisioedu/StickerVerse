@@ -9,7 +9,7 @@ import (
 func ListStickersByCreator(userID string) ([]Sticker, error) {
 	var stickers []Sticker
 	err := db.DB.Select(&stickers, `
-		SELECT * FROM stickers WHERE creator_id = $1 ORDER BY created at DESC
+		SELECT * FROM stickers WHERE creator_id = $1 ORDER BY created_at DESC
 	`, userID)
 
 	if err != nil {

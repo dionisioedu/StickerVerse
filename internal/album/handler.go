@@ -73,6 +73,10 @@ func ListAlbumsByUserHandler(c *gin.Context) {
 		return
 	}
 
+	if albums == nil {
+		albums = []Album{}
+	}
+
 	c.JSON(http.StatusOK, albums)
 }
 
